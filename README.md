@@ -1,47 +1,187 @@
 # Resquest-JR
 
 
+GET 
 
-[![33.jpg](https://i.postimg.cc/Bvn9SggS/33.jpg)](https://postimg.cc/WdCfS0CC)
+    import requests
 
+    if __name__ == '__main__':
 
-
-suplantar los 0.0.0 por la mascara de subred del gateway a escanear 
-
-    #!/bin/bash
-   
-    for i in $(seq 1 254); do
-            timeout 1 bash -c "ping -c 1 0.0.0.$i" &> /dev/null && echo "[+]Host  0.0.0.$i - ACTIVE"&
-    done; wait
+    url = 'https://www.datacels.com/detectar-empresa-telefono'
     
-el $i hace referencia al ultimo argumento de la IP especificada que se le aplica un secuenciador de 1 a 254; como se define en el for 
+    response = requests.get(url)
 
-     for i in $(seq 1 254)                   
-                
-                ej      192.168.0.$i = 192.168.0.1 
-                                        192.168.0.2
-                                         192.168.0.3 
-                                         
-para aplicarse en un grupo mas reducido de posibilidades, modificar el segundo argumento del secuenciador ya que hace referencia al limite del mismo
+    if response.status_code == 200:
+        print(response.content)
+
+        content= response.content
+
+        file = open('web.html', 'wb')
+        file.write(content)
+        file.close()
+    
+GET-COOKIES
+
+     import requests
+
+    if __name__ == '__main__':
+
+    url = 'https://www.datacels.com/detectar-empresa-telefono'
+    
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        cooikes= response.cookies
         
-        ej
-         for in$(seq 1 10)
-            for in$(seq 1 7)
-            for in$(seq 1 24)
- 
+        print(cooikes)
+                                         
+GET-JSON
+        
+        import requests
 
-## Build and install from source
+        if __name__ == '__main__':
 
-`git clone https://github.com/intratable/Detect-IP-ON.git`
+        url = 'https://www.datacels.com/detectar-empresa-telefono'
 
-`cd ip_on`
+        response = requests.get(url)
 
-`chmod +x build.sh`
+        if response.status_code == 200:
+            rjson= response.json
+            print(rjson)
+            argsjson = response.json['content'] #parte especifica del json 
+          # print(argsjson)
 
-`./build.sh`
+            rjsontext = json.loads(response.text) # json.loads Deserializando el json  
+            textjson = rjsontext['content'] 
+          # print(textjson)
+        
+        
+POST 
+
+        import requests
+
+        if __name__ == '__main__':
+
+            codarea = sys.argv[1]
+            linea = sys.argv[2]
+
+            url = 'https://www.datacels.com/detectar-empresa-telefono'
+            payload = {
+                indicativo : codarea,
+                bloque : linea,
+                _token : 'eZ0xdBL428ZqSzxp9sTDrZkyZuApCfYvoAZfBiRb',
+                buscador : 'Buscar'
+                }
+
+            response = requests.post(url, json=payload)
+
+            """ 
+
+           internamente el metodo post va a SERIALIZAR tomando el diccionario y convirtiendolo en json
+           siempre y cuando el diccionario sea inviado por json = 
+            """
+
+             response = request.post (url, data=json.dumps(payload))
+
+            """
+           tambien se puede enviar el diccionario por data = pero en ese caso habria que SERIALIZAR el diccionario
+           usando json.dumps
 
 
-## Usage
+           """ 
 
-    ./IP_ON.sh
+            if response.status_code == 200:
+                print(response.content)
+                
+HEADERS
+    
+    import requests
 
+    if __name__ == '__main__':
+
+    url = 'http://httpbin.org/post'
+    header = {'Conten-Type' : 'application/json' }
+    
+    response = requests.post(url, headers=header)
+    
+    if response.status_code == 200:
+        rheaders = response.headers
+        print(rheaders)
+        
+COOKIS
+
+    import requests
+
+    if __name__ == '__main__':
+
+    url = 'https://www.datacels.com/detectar-empresa-telefono'
+
+    """ 
+        extraer cookies
+    """
+    
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        cookies = response.cookies
+        print(response.cookies)
+        print(response.content)
+
+    """
+    enviar cookies
+    """
+
+    cookies = {'' : '', '' : ''}
+    
+    response = requests.get(url, cookies = cookies)
+
+    if response.status_code == 200:
+        print(response.content)
+
+        content= response.content
+      
+oAuth
+
+    import requests
+
+    user = ''
+    password = ''
+
+    acc_url = ''
+    # acces_token = ''
+
+    if __name__ == '__main__':
+
+    url = 'https://www.aa.com/'
+    paayload = {'user' : user, 'pass': password, 'code' : acc_url}
+    headers = {'Accept' : 'application/json'}
+
+    response = requests.post(url, json=payload, headers=headers)
+
+    if response.status_code == 200:
+        response_json = response.json()
+
+        access_token = response_json ['access_token']
+        print(acces_token)
+     
+SESSIONS
+
+        import requests
+
+    if __name__ == '__main__':
+
+    url = 'https://www.datacels.com/detectar-empresa-telefono'
+    
+    session = requests.session(url)
+    session.auth = ('','')
+    response = session.get(url)
+    if response.status_code == 200:
+        print(response.content)
+        response = session.get ('https://www.a.com')
+        if response.status_code == 200:
+            print(response.cookies)
+        else :
+            print(response.content)
+    else :
+        print(response.content)
+    
