@@ -1,5 +1,10 @@
 # Resquest-JR
 
+## Requisitos
+
+`python pip install request `
+
+
 
 GET 
 
